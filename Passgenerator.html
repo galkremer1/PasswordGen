@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Password generator</title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script>
+        function showalert() {
+            alert("Password was copied to the clipboard!");
+        }
+        function passGen() {
+            var leng = document.getElementById('passlength').value;
+            var showPass = document.getElementById('showpass');
+            showPass.classList.remove('hidden');
+            if (!leng) {
+                alert('Please enter a valid password length');
+                showPass.classList.add('hidden');
+                return;
+            }
+            var password = '';
+            var AZ = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var az = 'abcdefghijklmnopqrstuvwxyz';
+            var numbers = '0123456789';
+            var possible = ''
+            if (document.getElementById('number_include').value == 'yes') {
+                possible += numbers;
+            }
+            if (document.getElementById('alpha_upper_include').value == 'yes') {
+                possible += AZ;
+            }
+            if (document.getElementById('alpha_lower_include').value == 'yes') {
+                possible += az;
+            }
+            for (var i = 0; i < leng; i++) {
+                password += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            showPass.innerHTML = password;
+        }
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="row-fluid">
+        <div class="col-md-6">
+            <h3>Generate a password</h3>
+            Desired password length:
+            <input type="number" id="passlength" class="form-control">
+            <br>
+            <BR>
+            <label class="control-label">Include Alpha Upper (A-Z):</label>
+            <select class="form-control" name="alpha_upper_include" id="alpha_upper_include">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <label class="control-label">Include Alpha Lower (a-z):</label>
+            <select class="form-control" name="alpha_lower_include" id="alpha_lower_include">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <label class="control-label">Include Number (0-9):</label>
+            <select class="form-control" name="number_include" id="number_include">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <div class="alert alert-success hidden" id="showpass"></div>
+            <button class="btn btn-primary" onclick="passGen()" type="button">Generate password</button>
+            <BR>
+            <BR>
+
+            <script language="javascript" type="text/javascript" src="ZeroClipboard.js"></script>
+            <script language="javascript" type="text/javascript">
+                window.onload = function() {
+                    var trusted_domains = window.location.host ? [window.location.host] : ["*"];
+                    ZeroClipboard.config({ trustedDomains: trusted_domains});
+                    var buttons = document.querySelectorAll('button.clipboard-button');
+                    var client = new ZeroClipboard(buttons);
+                }
+            </script>
+
+            <button class="clipboard-button" data-clipboard-target="showpass" onclick="showalert()">Copy password to clipboard</button>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>
